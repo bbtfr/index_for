@@ -1,0 +1,14 @@
+en:
+  index_for:
+    blank: "Not specified"
+    # If you want to use html tags with blank value use blank html translation
+    # blank_html: "<span>Not specified</span>"
+    "yes": "Yes"
+    "no": "No"
+    actions:
+      actions: Actions
+      show: Show
+      new: New
+      edit: Edit
+      destroy: Destroy
+      confirmation: "Are you sure?"

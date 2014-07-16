@@ -1,0 +1,8 @@
+<%%= index_for @<%= plural_name %> do |i| %>
+<% attributes.each do |attribute| -%>
+  <%%= i.<%= attribute.reference? ? :association : :attribute %> :<%= attribute.name %> %>
+<% end -%>
+  <%%= i.actions :all %>
+<%% end %>
+
+<%%= link_to 'New', new_<%= singular_name %>_path(@<%= singular_name %>) %>
