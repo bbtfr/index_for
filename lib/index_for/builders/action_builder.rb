@@ -10,7 +10,7 @@ module IndexFor
         action_title = translate(:"actions.#{action_name}", 
           default: action_name.to_s.humanize).html_safe
         action_html_options = apply_html_options :action_link, options[:html] || {}
-        append_class action_html_options, action_name
+        append_class action_html_options, :"action_#{action_name}"
 
         case action_name
         when :show

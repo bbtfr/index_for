@@ -3,9 +3,9 @@ module IndexFor
 
     private
 
-    def attribute_value attribute_name, options, &block
-      return block if block
-      attribute_name = :"#{attribute_name}.#{options[:value]}" if options[:value]
+    def attribute_value attribute_name, options
+      attribute_name = options[:value] if options[:value]
+      attribute_name = :"#{attribute_name}.#{options[:with]}" if options[:with]
 
       parts = attribute_name.to_s.split(".")
       attribute_name = parts.pop

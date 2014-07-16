@@ -4,7 +4,7 @@
 [![Build Status](https://api.travis-ci.org/bbtfr/index_for.png?branch=master)](http://travis-ci.org/bbtfr/index_for)
 [![Code Climate](https://codeclimate.com/github/bbtfr/index_for.png)](https://codeclimate.com/github/bbtfr/index_for)
 
-Inspired by [plataformatec/show_for](https://github.com/plataformatec/show_for), IndexFor allows you to quickly show models information with I18n features.
+Inspired by [plataformatec/show_for](https://github.com/plataformatec/show_for), IndexFor allows you to quickly list models information with I18n features.
 
 ```erb
 <%= index_for @users do |u| %>
@@ -19,8 +19,7 @@ Inspired by [plataformatec/show_for](https://github.com/plataformatec/show_for),
     <%= image_tag(user.photo_url) %>
   <% end %>
 
-  <%= u.association :company %>
-  <%= u.association :tags, :to_sentence => true %>
+  <%= u.attribute :tags, :to_sentence => true %>
 
   <%= u.ations :all %>
 <% end %>
@@ -43,12 +42,13 @@ older versions of Rails, check out other similar gems, such as [wice_grid](https
 
 ## Usage
 
-IndexFor allows you to quickly show a model information with I18n features.
+IndexFor allows you to quickly list models information with I18n features.
 
 ```erb
 <%= index_for @admins do |a| %>
   <%= a.attribute :name %>
-  <%= a.attribute :login, :value => :upcase %>
+  <%= a.attribute :login, :with => :upcase %>
+  <%= a.attribute :username, :value => :human_login %>
   <%= a.attribute :confirmed? %>
   <%= a.attribute :created_at, :format => :short %>
   <%= a.attribute :last_sign_in_at, :if_blank => "Administrator did not access yet"
@@ -58,7 +58,17 @@ IndexFor allows you to quickly show a model information with I18n features.
     <%= image_tag(admin.photo_url) %>
   <% end %>
 
-  <% a.attribute :biography %>
+  <%= a.attribute :tags, :with => :to_sentence %>
+
+  <%= a.attribute :tags, :collection_tag => :ol, :collection_column_tag => :li %>
+
+  <%= a.attribute :tags do |admin| %>
+    <%= admin.tags.to_sentence.upcase %>
+  <% end %>
+
+  <%= a.attribute :tags do |tag, tags, admin| %>
+    <li><%= tag.upcase %></li>
+  <% end %>
 
   <% a.actions :all %>
 <% end %>
@@ -70,38 +80,65 @@ Will generate something like:
 <table class="index_for admins table" id="admins">
   <thead>
     <tr class="admin">
-      <th class="admin_name"> Name </th>
-      <th class="admin_login"> Login </th>
-      <th class="admin_confirmed"> Confirmed? </th>
-      <th class="admin_created_at"> Created at </th>
-      <th id="sign_in_timestamp" class="admin_last_sign_in_at"> 
+      <th class="attr_name"> Name </th>
+      <th class="attr_login"> Login </th>
+      <th class="attr_username"> Username </th>
+      <th class="attr_confirmed"> Confirmed? </th>
+      <th class="attr_created_at"> Created at </th>
+      <th id="sign_in_timestamp" class="attr_last_sign_in_at"> 
         Last sign in at 
       </th>
-      <th class="admin_photo"> Photo </th>
-      <th class="admin_biography"> Biography </th>
+      <th class="attr_photo"> Photo </th>
+      <th class="attr_biography"> Biography </th>
+      <th class="attr_tags"> Tags </th>
+      <th class="attr_tags"> Tags </th>
+      <th class="attr_tags"> Tags </th>
+      <th class="attr_tags"> Tags </th>
       <th class="actions"> Actions </th>
     </tr>
   </thead>
   <tbody>
     <tr class="admin" id="admin_1">
-      <td class="admin_name"> José Valim </td>
-      <td class="admin_login"> JVALIM </td>
-      <td class="admin_confirmed"> Yes </td>
-      <td class="admin_created_at"> 13/12/2009 - 19h17 </td>
-      <td id="sign_in_timestamp" class="admin_last_sign_in_at">
+      <td class="attr_name"> José Valim </td>
+      <td class="attr_login"> JVALIM </td>
+      <td class="attr_username"> Jvalim </td>
+      <td class="attr_confirmed"> Yes </td>
+      <td class="attr_created_at"> 13/12/2009 - 19h17 </td>
+      <td id="sign_in_timestamp" class="attr_last_sign_in_at">
         Administrator did not access yet
       </td>
-      <td class="admin_photo"> <img src="path/to/photo" /> </td>
-      <td class="admin_biography">
+      <td class="attr_photo"> <img src="path/to/photo" /> </td>
+      <td class="attr_biography">
         Etiam porttitor eros ut diam vestibulum et blandit lectus tempor. Donec
         venenatis fermentum nunc ac dignissim. Pellentesque volutpat eros quis enim
         mollis bibendum. Ut cursus sem ac sem accumsan nec porttitor felis luctus.
         Sed purus nunc, auctor vitae consectetur pharetra, tristique non nisi.
       </td>
+
+      <td class="attr_tags"> eros, sem and accumsan </td>
+      
+      <td class="attr_tags">
+        <ol>
+          <li>eros</li>
+          <li>sem</li>
+          <li>accumsan</li>
+        </ol>
+      </td>
+      
+      <td class="attr_tags"> EROS, SEM AND ACCUMSAN </td>
+      
+      <td class="attr_tags">
+        <ul>
+          <li>EROS</li>
+          <li>SEM</li>
+          <li>ACCUMSAN</li>
+        </ul>
+      </td>
+
       <td class="actions">
-        <a href="/admins/1">Show</a>
-        <a href="/admins/1/edit">Edit</a>
-        <a href="/admins/1" data-method="delete" data-confirm="Are you sure?">Delete</a>
+        <a class="action action_show" href="/admins/1">Show</a>
+        <a class="action action_edit" href="/admins/1/edit">Edit</a>
+        <a class="action action_destroy" href="/admins/1" data-method="delete" data-confirm="Are you sure?">Delete</a>
       </td>
     </tr>
   </tbody>
@@ -116,12 +153,36 @@ You can also show a list of attributes, useful if you don't need to change any c
 <% end %>
 ```
 
+This gem also implements a helper method `show_for` to quickly show a model information with I18n features, which is yet another implementation of [plataformatec/show_for](https://github.com/plataformatec/show_for) and will generate a description list (dl/dt/dd) by default.
+
+```erb
+<%= show_for @admins do |a| %>
+  <%= a.attribute :name %>
+  <%= a.attribute :login, :with => :upcase %>
+  <%= a.attribute :username, :value => :human_login %>
+  <%= a.attribute :confirmed? %>
+  <%= a.attribute :created_at, :format => :short %>
+  <%= a.attribute :last_sign_in_at, :if_blank => "Administrator did not access yet"
+                  :html => { :id => "sign_in_timestamp" } %>
+
+  <%= a.attribute :photo do |admin| %>
+    <%= image_tag(admin.photo_url) %>
+  <% end %>
+
+  <%= a.attribute :tags, :with => :to_sentence %>
+
+  <%= a.label :login %>
+  <%= a.content :username %>
+<% end %>
+```
+
 ## Value lookup
 
 IndexFor uses the following sequence to get the attribute value:
 
 * use the output of a block argument if given
 * use the output of the `:value` argument if given
+* use the output of the `:with` argument if given
 * check if a `:"human_#{attribute}"` method is defined
 * retrieve the attribute directly.
 * attribute name `:"#{method1}.#{method2}"` is allowed, which will use the output of `object.method1.method2`, you can call a method chain in this way.
@@ -134,7 +195,11 @@ IndexFor handles a series of options. Those are:
 
 * __:value__ - Can be used instead of block. If a Symbol is called as instance method.
 
+* __:with__ - Can be used to format output. It will effect same as attribute name `:"#{attribute_name}.#{options[:with]}"`.
+
 * __:if_blank__ - An object to be used if the value is blank. Not escaped as well.
+
+* __collection_tag__, __collection_column_tag__ - Wrapper with these tags when the attribute is an array or a hash.
 
 ## Actions
 
@@ -167,55 +232,10 @@ that will be called with a routable action for the resource, or a block. E.g.:
 <% end %>
 ```
 
-## Associations
-
-IndexFor also supports associations.
+If you want to use action links without `index_for` table, E.g.: in you show page, you can call this helper method `index_for_actions`
 
 ```erb
-<%= index_for @artworks do |a| %>
-  <%= a.association :artist %>
-  <%= a.association :artist, :using => :name_with_title %>
-  <%= a.attribute :"artist.name_with_title" %>
-
-  <%= a.association :tags %>
-  <%= a.association :tags, :to_sentence => true %>
-  <%= a.association :tags do |artwork| %>
-    <%= artwork.tags.map(&:name).to_sentence %>
-  <% end %>
-
-  <%= a.association :fans, :collection_tag => :ol do |fan| %>
-    <li><%= link_to fan.name, fan %></li>
-  <% end %>
-<% end %>
-```
-
-The first is a `has_one` or `belongs_to` association, which works like an attribute
-to IndexFor, except it will retrieve the artist association and try to find a
-proper method from `IndexFor.association_methods` to be used. You can pass
-the option :using to tell (and not guess) which method from the association
-to use.
-
-:tags is a `has_and_belongs_to_many` association which will return a collection.
-IndexFor can handle collections by default by wrapping them in list (`<ul>` with
-each item wrapped by an `<li>`). However, it also allows you to give `:to_sentence`
-or `:join` it you want to render them inline.
-
-You can also pass a block which expects an argument to association. In such cases,
-a wrapper for the collection is still created and the block just iterates over the
-collection objects.
-
-Here are some other examples of the many possibilites to custom the output content:
-
-```erb
-<%= u.association :relationships, :label => 'test' do |user| %>
-  <% user.relationships.each do |relation| %>
-    <%= relation.related_user.name if relation.related_user_role == 'supervisor' %>
-  <% end %>
-<% end %>
-
-<%= u.attribute :gender do |user| %>
-  <%= content_tag :span, t("helpers.enum_select.user.gender.#{user.gender}") %>
-<% end %>
+<%= index_for_actions @admin, :all %>
 ```
 
 ## Maintainers

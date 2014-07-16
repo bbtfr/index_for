@@ -68,12 +68,12 @@ module IndexFor
     def show_for object, html_options = {}, &block
       html_options = html_options.dup
 
-      tag = html_options[:desc_list_tag] || IndexFor.desc_list_tag
+      tag = html_options[:list_tag] || IndexFor.list_tag
 
       html_options[:id] ||= show_for_id(object)
       html_options[:class] = show_for_class(object, html_options)
 
-      content = capture(IndexFor::DescListColumnBuilder.new(object, html_options, self), &block)
+      content = capture(IndexFor::ListColumnBuilder.new(object, html_options, self), &block)
 
       content_tag(tag, content, html_options)
     end
@@ -88,7 +88,7 @@ module IndexFor
       append_class head_html_options, IndexFor.table_head_class
 
       row_html_options = html_options[:row_html] || {}
-      append_class row_html_options, IndexFor.table_row_class
+      append_class row_html_options, IndexFor.table_row_class, dom_class(object)
 
       content = capture(IndexFor::HeadColumnBuilder.new(object, html_options, self), &block)
 
@@ -104,11 +104,12 @@ module IndexFor
       body_html_options = html_options[:body_html] || {}
       append_class body_html_options, IndexFor.table_body_class
 
-      row_html_options = html_options[:row_html] || {}
-      append_class row_html_options, IndexFor.table_row_class
-
       content_tag(body_tag, body_html_options) do
         objects.map do |object|
+          row_html_options = html_options[:row_html] || {}
+          row_html_options[:id] ||= dom_id(object)
+          append_class row_html_options, IndexFor.table_row_class, dom_class(object)
+
           content = capture(IndexFor::BodyColumnBuilder.new(object, html_options, self), &block)
           content_tag(row_tag, content, row_html_options)
         end.join.html_safe
@@ -122,7 +123,7 @@ module IndexFor
     end
 
     def index_for_class klass, html_options
-      append_class html_options, "table", klass.model_name.plural, IndexFor.table_class
+      append_class html_options, "index_for", klass.model_name.plural, IndexFor.table_class
     end
 
     # ShowFor
@@ -131,7 +132,7 @@ module IndexFor
     end
 
     def show_for_class object, html_options
-      append_class html_options, "table", dom_class(object), IndexFor.table_class
+      append_class html_options, "show_for", dom_class(object), IndexFor.table_class
     end
   end
 end

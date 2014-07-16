@@ -4,6 +4,7 @@ module IndexFor
   class HeadColumnBuilder < Builder
 
     def attribute attribute_name, options = {}
+      append_html_class options, :"attr_#{attribute_name}"
       wrap_with :table_head_cell, attribute_label(attribute_name), options
     end
 

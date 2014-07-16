@@ -7,7 +7,7 @@ module IndexFor
   autoload :ActionBuilder, 'index_for/builders/action_builder'
   autoload :HeadColumnBuilder, 'index_for/builders/head_column_builder'
   autoload :BodyColumnBuilder, 'index_for/builders/body_column_builder'
-  autoload :DescListColumnBuilder, 'index_for/builders/desc_list_column_builder'
+  autoload :ListColumnBuilder, 'index_for/builders/list_column_builder'
 
   # IndexFor
   mattr_accessor :table_tag
@@ -47,20 +47,28 @@ module IndexFor
   @@action_link_class = :action
 
   # ShowFor
-  mattr_accessor :desc_list_tag
-  @@desc_list_tag = :dl
-  mattr_accessor :desc_list_class
-  @@desc_list_class = nil
+  mattr_accessor :list_tag
+  @@list_tag = :dl
+  mattr_accessor :list_class
+  @@list_class = nil
 
-  mattr_accessor :desc_list_label_tag
-  @@desc_list_label_tag = :dt
-  mattr_accessor :desc_list_label_class
-  @@desc_list_label_class = nil
+  mattr_accessor :list_row_tag
+  @@list_row_tag = nil
+  mattr_accessor :list_row_class
+  @@list_row_class = nil
 
-  mattr_accessor :desc_list_content_tag
-  @@desc_list_content_tag = :dd
-  mattr_accessor :desc_list_content_class
-  @@desc_list_content_class = nil
+  mattr_accessor :list_label_tag
+  @@list_label_tag = :dt
+  mattr_accessor :list_label_class
+  @@list_label_class = nil
+
+  mattr_accessor :list_content_tag
+  @@list_content_tag = :dd
+  mattr_accessor :list_content_class
+  @@list_content_class = nil
+
+  mattr_accessor :list_label_proc
+  @@list_label_proc = nil
 
   mattr_accessor :blank_content_class
   @@blank_content_class = "blank"
@@ -71,8 +79,10 @@ module IndexFor
   mattr_accessor :association_methods
   @@association_methods = [ :name, :title, :to_s ]
 
-  mattr_accessor :label_proc
-  @@label_proc = nil
+  mattr_accessor :collection_tag
+  @@collection_tag = :ul
+  mattr_accessor :collection_column_tag
+  @@collection_column_tag = :li
 
   # Yield self for configuration block:
   #
