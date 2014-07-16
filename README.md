@@ -1,6 +1,10 @@
 # IndexFor
 
-Inspired by plataformatec/show_for, IndexFor allows you to quickly show models information with I18n features.
+[![Gem Version](https://fury-badge.herokuapp.com/rb/index_for.png)](http://badge.fury.io/rb/index_for)
+[![Build Status](https://api.travis-ci.org/bbtfr/index_for.png?branch=master)](http://travis-ci.org/bbtfr/index_for)
+[![Code Climate](https://codeclimate.com/github/bbtfr/index_for.png)](https://codeclimate.com/github/bbtfr/index_for)
+
+Inspired by [plataformatec/show_for](https://github.com/plataformatec/show_for), IndexFor allows you to quickly show models information with I18n features.
 
 ```erb
 <%= index_for @users do |u| %>
@@ -24,13 +28,9 @@ Inspired by plataformatec/show_for, IndexFor allows you to quickly show models i
 
 ## Installation
 
-Install the gem:
+Install the gem by adding it to your Gemfile and bundle it up:
 
-    gem install index_for
-
-Or add IndexFor to your Gemfile and bundle it up:
-
-    gem 'index_for'
+    gem 'index_for', github: 'bbtfr/index_for'
 
 Run the generator:
 
@@ -38,8 +38,8 @@ Run the generator:
 
 And you are ready to go.
 
-Note: This branch aims Rails 3.2 and 4 support, so if you want to use it with
-older versions of Rails, check out the available branches.
+Note: This gem is only supported with Rails 3.2 and 4, so if you want to use it with 
+older versions of Rails, check out other similar gems, such as [wice_grid](https://github.com/leikind/wice_grid) or [datagrid](https://github.com/bogdan/datagrid).
 
 ## Usage
 
@@ -69,44 +69,34 @@ Will generate something like:
 ```html
 <table class="index_for admins table" id="admins">
   <thead>
-    <tr class="show_for admin" id="new_admin">
-      <th> Name </th>
-      <th> Login </th>
-      <th> Confirmed? </th>
-      <th> Created at </th>
-      <th> Last sign in at </th>
-      <th> Photo </th>
-      <th> Biography </th>
-      <th> Actions </th>
+    <tr class="admin">
+      <th class="admin_name"> Name </th>
+      <th class="admin_login"> Login </th>
+      <th class="admin_confirmed"> Confirmed? </th>
+      <th class="admin_created_at"> Created at </th>
+      <th id="sign_in_timestamp" class="admin_last_sign_in_at"> 
+        Last sign in at 
+      </th>
+      <th class="admin_photo"> Photo </th>
+      <th class="admin_biography"> Biography </th>
+      <th class="actions"> Actions </th>
     </tr>
   </thead>
   <tbody>
-    <tr class="show_for admin" id="admin_1">
-      <td class="admin_name">
-        <span class="content"> José Valim </span>
-      </td>
-      <td class="admin_login">
-        <span class="content"> JVALIM </span>
-      </td>
-      <td class="admin_confirmed">
-        <span class="content"> Yes </span>
-      </td>
-      <td class="admin_created_at">
-        <span class="content"> 13/12/2009 - 19h17 </span>
-      </td>
+    <tr class="admin" id="admin_1">
+      <td class="admin_name"> José Valim </td>
+      <td class="admin_login"> JVALIM </td>
+      <td class="admin_confirmed"> Yes </td>
+      <td class="admin_created_at"> 13/12/2009 - 19h17 </td>
       <td id="sign_in_timestamp" class="admin_last_sign_in_at">
-        <span class="content"> Administrator did not access yet </span>
+        Administrator did not access yet
       </td>
-      <td class="admin_photo">
-        <span class="content"> <img src="path/to/photo" /> </span>
-      </td>
+      <td class="admin_photo"> <img src="path/to/photo" /> </td>
       <td class="admin_biography">
-        <span class="content">
-          Etiam porttitor eros ut diam vestibulum et blandit lectus tempor. Donec
-          venenatis fermentum nunc ac dignissim. Pellentesque volutpat eros quis enim
-          mollis bibendum. Ut cursus sem ac sem accumsan nec porttitor felis luctus.
-          Sed purus nunc, auctor vitae consectetur pharetra, tristique non nisi.
-        </span>
+        Etiam porttitor eros ut diam vestibulum et blandit lectus tempor. Donec
+        venenatis fermentum nunc ac dignissim. Pellentesque volutpat eros quis enim
+        mollis bibendum. Ut cursus sem ac sem accumsan nec porttitor felis luctus.
+        Sed purus nunc, auctor vitae consectetur pharetra, tristique non nisi.
       </td>
       <td class="actions">
         <a href="/admins/1">Show</a>
