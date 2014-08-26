@@ -156,7 +156,7 @@ You can also show a list of attributes, useful if you don't need to change any c
 This gem also implements a helper method `show_for` to quickly show a model information with I18n features, which is yet another implementation of [plataformatec/show_for](https://github.com/plataformatec/show_for) and will generate a description list (dl/dt/dd) by default.
 
 ```erb
-<%= show_for @admins do |a| %>
+<%= show_for @admin do |a| %>
   <%= a.attribute :name %>
   <%= a.attribute :login, :with => :upcase %>
   <%= a.attribute :username, :value => :human_login %>
