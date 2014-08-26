@@ -17,7 +17,7 @@ class IndexForGeneratorTest < Rails::Generators::TestCase
   test 'generates the index_for initializer' do
     run_generator
     assert_file 'config/initializers/index_for.rb',
-      /config.index_for_tag = :div/
+      /config.table_tag = :table/
   end
 
   %W(erb haml slim).each do |engine|
