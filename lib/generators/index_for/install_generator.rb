@@ -16,6 +16,7 @@ module IndexFor
       def copy_generator_template
         engine = options[:template_engine]
         copy_file "index.html.#{engine}", "lib/templates/#{engine}/scaffold/index.html.#{engine}"
+        copy_file "show.html.#{engine}", "lib/templates/#{engine}/scaffold/show.html.#{engine}"
       end
     end
   end
