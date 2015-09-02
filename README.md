@@ -70,6 +70,8 @@ IndexFor allows you to quickly list models information with I18n features.
     <li><%= tag.upcase %></li>
   <% end %>
 
+  <%= a.attribute :raise_error, value: :"method_return_nil.other_method", if_raise: nil %>
+
   <% a.actions :all %>
 <% end %>
 ```
@@ -94,6 +96,7 @@ Will generate something like:
       <th class="attr_tags"> Tags </th>
       <th class="attr_tags"> Tags </th>
       <th class="attr_tags"> Tags </th>
+      <th class="attr_tags"> Raise Error </th>
       <th class="actions"> Actions </th>
     </tr>
   </thead>
@@ -133,6 +136,10 @@ Will generate something like:
           <li>SEM</li>
           <li>ACCUMSAN</li>
         </ul>
+      </td>
+
+      <td class="attr_raise_error">
+        Not specified
       </td>
 
       <td class="actions">
@@ -198,6 +205,8 @@ IndexFor handles a series of options. Those are:
 * __:with__ - Can be used to format output. It will effect same as attribute name `:"#{attribute_name}.#{options[:with]}"`.
 
 * __:if_blank__ - An object to be used if the value is blank. Not escaped as well.
+
+* __:if_raise__ - What to display when an error raised, raise an error by default.
 
 * __collection_tag__, __collection_column_tag__ - Wrapper with these tags when the attribute is an array or a hash.
 

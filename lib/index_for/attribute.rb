@@ -20,6 +20,8 @@ module IndexFor
       else
         object.send(attribute_name)
       end
+    rescue
+      options.key?(:if_raise) ? options[:if_raise] : raise
     end
 
     def attribute_label attribute_name

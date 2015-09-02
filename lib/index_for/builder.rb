@@ -4,7 +4,7 @@ module IndexFor
   class Builder
     include IndexFor::ShareHelper
     include IndexFor::Attribute
-    
+
     attr_accessor :object, :html_options, :template
 
     def initialize object, html_options, template
@@ -41,7 +41,7 @@ module IndexFor
       type_html_options = {}
       type_html_options.merge!(html_options[:"#{type}_html"]) if html_options[:"#{type}_html"]
       type_html_options.merge!(options[:html]) if options[:html]
-      
+
       append_class type_html_options, type_class
 
       type_html_options
@@ -70,11 +70,11 @@ module IndexFor
       when Date, Time, DateTime
         I18n.l content, :format => options[:format] || IndexFor.i18n_format
       when TrueClass
-        translate :"show_for.yes", :default => "Yes"
+        translate :"index_for.yes", :default => "Yes"
       when FalseClass
-        translate :"show_for.no", :default => "No"
+        translate :"index_for.no", :default => "No"
       when Array, Hash
-        content.empty? ? blank_content(options) : 
+        content.empty? ? blank_content(options) :
           collection_content(content, options, &block)
       when Proc
         @template.capture(@object, &content)
