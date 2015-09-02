@@ -16,6 +16,14 @@ module IndexFor
 
       tag = html_options[:table_tag] || IndexFor.table_tag
 
+      if objects.is_a?(Array) &&
+        objects.find do |o|
+          !o.is_a?(Symbol) && !o.is_a?(String) && !o.is_a?(ActiveRecord::Base)
+        end == objects.last
+          html_options[:namespace] = objects
+          objects = objects.pop
+      end
+
       klass = html_options[:klass] || objects.try(:klass) || objects.first.class
 
       html_options[:id] ||= index_for_id(klass)
@@ -44,7 +52,7 @@ module IndexFor
       action_names = [:show, :edit, :destroy] if action_names == [:all]
 
       builder = IndexFor::ActionBuilder.new(object, html_options, self)
-      
+
       content = capture(builder) do |a|
         action_names.map do |action_name|
           a.action_link action_name
