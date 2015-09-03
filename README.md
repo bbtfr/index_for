@@ -58,6 +58,11 @@ IndexFor allows you to quickly list models information with I18n features.
     <%= image_tag(admin.photo_url) %>
   <% end %>
 
+  <%= a.fields_for :photo do |t| %>
+    <%= t.attribute :width %>
+    <%= t.attribute :height %>
+  <% end %>
+
   <%= a.attribute :tags, :with => :to_sentence %>
 
   <%= a.attribute :tags, :collection_tag => :ol, :collection_column_tag => :li %>
@@ -111,6 +116,10 @@ Will generate something like:
         Administrator did not access yet
       </td>
       <td class="attr_photo"> <img src="path/to/photo" /> </td>
+
+      <td class="attr_photo_width"> 600 </td>
+      <td class="attr_photo_height"> 800 </td>
+
       <td class="attr_biography">
         Etiam porttitor eros ut diam vestibulum et blandit lectus tempor. Donec
         venenatis fermentum nunc ac dignissim. Pellentesque volutpat eros quis enim

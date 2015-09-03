@@ -4,7 +4,7 @@ module IndexFor
   class BodyColumnBuilder < Builder
 
     def attribute attribute_name, options = {}, &block
-      append_html_class options, :"attr_#{attribute_name}"
+      append_html_class options, attribute_class_name(attribute_name)
       wrap_content_with :table_body_cell, attribute_value(attribute_name,
         options), options, &block
     end

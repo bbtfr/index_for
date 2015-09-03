@@ -24,6 +24,14 @@ module IndexFor
       end.join.html_safe
     end
 
+    def fields_for attribute_name, options = {}, &block
+      object = @object.send(attribute_name)
+      fields_for = @html_options[:fields_for] || []
+      fields_for.push attribute_name
+      options.merge!(fields_for: attribute_name)
+      @template.capture(self.class.new(object, options, @template), &block)
+    end
+
     def actions *action_names, &block; end
 
     private
@@ -47,6 +55,11 @@ module IndexFor
       type_html_options
     end
 
+    def attribute_class_name attribute_name
+      class_name = ["attr", *@html_options[:fields_for], attribute_name]
+      class_name.compact!
+      class_name.join("_").to_sym
+    end
 
     def wrap_content_with type, content, options = {}, &block #:nodoc:
       type_tag, type_html_options = apply_html type, options
