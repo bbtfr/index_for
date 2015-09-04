@@ -19,7 +19,7 @@ module IndexFor
             action_html_options
         when :destroy
           @template.link_to action_title, @template.polymorphic_path(object),
-            { data: { method: :destroy, confirm: translate(:"actions.confirmation")
+            { data: { method: :delete, confirm: translate(:"actions.confirmation")
             }}.merge(action_html_options)
         else
           @template.link_to action_title, @template.polymorphic_path(object,
