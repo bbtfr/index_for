@@ -223,13 +223,15 @@ For `attribute`:
 
 For `action_link`:
 
-* __method__ - `rails-ujs` data-method.
+* __url__ - `link_path` used for `link_to`, `polymorphic_url` by default.
 
-* __confirm__ - `rails-ujs` data-confirm.
+* __method__ - `rails-ujs` `data-method`.
+
+* __confirm__ - `rails-ujs` `data-confirm`.
 
 For `index_for`, `fields_for`:
 
-* __model__ - Model Class, used for generate i18n table header or description list label, `ActiveRecord::Relation#klass` / `Array#first.class` by default.
+* __model__ - Model Class, used for generating i18n table header or description list label, `ActiveRecord::Relation#klass` / `Array#first.class` by default.
 
 ## Actions
 
