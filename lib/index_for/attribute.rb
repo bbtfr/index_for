@@ -25,7 +25,8 @@ module IndexFor
     end
 
     def attribute_label attribute_name
-      @object.class.human_attribute_name(attribute_name)
+      model_class = html_options[:model] || @object.class
+      model_class.human_attribute_name(attribute_name)
     end
 
   end

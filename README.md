@@ -207,6 +207,8 @@ IndexFor uses the following sequence to get the attribute value:
 
 IndexFor handles a series of options. Those are:
 
+For `attribute`:
+
 * __:format__ - Sent to I18n.localize when the attribute is a date/time object.
 
 * __:value__ - Can be used instead of block. If a Symbol is called as instance method.
@@ -218,6 +220,16 @@ IndexFor handles a series of options. Those are:
 * __:if_raise__ - What to display when an error raised, raise an error by default.
 
 * __collection_tag__, __collection_column_tag__ - Wrapper with these tags when the attribute is an array or a hash.
+
+For `action_link`:
+
+* __method__ - `rails-ujs` data-method.
+
+* __confirm__ - `rails-ujs` data-confirm.
+
+For `index_for`, `fields_for`:
+
+* __model__ - Model Class, used for generate i18n table header or description list label, `ActiveRecord::Relation#klass` / `Array#first.class` by default.
 
 ## Actions
 

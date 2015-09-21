@@ -11,20 +11,21 @@ module IndexFor
         action_title = translate(:"actions.#{action_name}",
           default: action_name.to_s.humanize).html_safe
         action_html_options = apply_html_options :action_link, options[:html] || {}
-        append_class action_html_options, :"action_#{action_name}"
+        append_class action_html_options, :"action_#{action_name}", options[:class]
+        action_html_options[:data] ||= {}
+        action_html_options[:data].reverse_merge!(options.slice(:method, :confirm))
 
-        case action_name
-        when :show
-          @template.link_to action_title, @template.polymorphic_path(object),
-            action_html_options
-        when :destroy
-          @template.link_to action_title, @template.polymorphic_path(object),
-            { data: { method: :delete, confirm: translate(:"actions.confirmation")
-            }}.merge(action_html_options)
-        else
-          @template.link_to action_title, @template.polymorphic_path(object,
-            action: action_name), action_html_options
-        end
+        link_path = options[:url] || case action_name
+          when :show, :destroy
+            @template.polymorphic_path(object)
+          else
+            @template.polymorphic_path(object, action: action_name)
+          end
+
+        action_html_options[:data].reverse_merge!( method: :delete,
+          confirm: translate(:"actions.confirmation")) if action_name == :destroy
+
+        @template.link_to action_title, link_path, action_html_options
       end
     end
 
