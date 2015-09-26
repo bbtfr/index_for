@@ -73,7 +73,7 @@ module IndexFor
     def format_content content, options = {}, &block
       # We need to convert content to_a because when dealing with ActiveRecord
       # Array proxies, the follow statement Array# === content return false
-      if block && block.arity == 1
+      if block && block.arity <= 1
         content = block
       elsif content.respond_to?(:to_ary)
         content = content.to_a
