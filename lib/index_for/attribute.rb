@@ -24,8 +24,9 @@ module IndexFor
       options.key?(:if_raise) ? options[:if_raise] : raise
     end
 
-    def attribute_label attribute_name
-      model_class = html_options[:model] || @object.class
+    def attribute_label attribute_name, options
+      return options[:label] if options[:label]
+      model_class = options[:model] || html_options[:model] || @object.class
       model_class.human_attribute_name(attribute_name)
     end
 

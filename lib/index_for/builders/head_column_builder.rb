@@ -5,7 +5,7 @@ module IndexFor
 
     def attribute attribute_name, options = {}
       append_html_class options, attribute_class_name(attribute_name)
-      wrap_with :table_head_cell, attribute_label(attribute_name), options
+      wrap_with :table_head_cell, attribute_label(attribute_name, options), options
     end
 
     def actions *action_names

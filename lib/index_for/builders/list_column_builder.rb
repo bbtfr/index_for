@@ -19,7 +19,7 @@ module IndexFor
 
     def list_label attribute_name, options
       append_html_class options, attribute_class_name(attribute_name)
-      wrap_with :list_label, attribute_label(attribute_name), options
+      wrap_with :list_label, attribute_label(attribute_name, options), options
     end
 
     def list_content attribute_name, options, &block
