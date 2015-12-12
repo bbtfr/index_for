@@ -61,23 +61,25 @@ module IndexFor
       class_name.join("_").to_sym
     end
 
-    def wrap_content_with type, content, options = {}, &block #:nodoc:
+    def wrap_attribute_with type, attribute, options = {}, &block
       type_tag, type_html_options = apply_html type, options
-      append_class type_html_options, IndexFor.blank_content_class if content.blank?
+
+      if block
+        content = block
+      else
+        content = attribute_value attribute, options
+        append_class type_html_options, IndexFor.blank_content_class if content.blank?
+      end
 
       @template.content_tag type_tag, type_html_options do
-        format_content(content, options, &block)
+        format_content(content, options)
       end
     end
 
-    def format_content content, options = {}, &block
+    def format_content content, options = {}
       # We need to convert content to_a because when dealing with ActiveRecord
       # Array proxies, the follow statement Array# === content return false
-      if block && block.arity <= 1
-        content = block
-      elsif content.respond_to?(:to_ary)
-        content = content.to_a
-      end
+      content = content.to_ary if content.respond_to?(:to_ary)
 
       case content
       when Date, Time, DateTime
@@ -86,15 +88,23 @@ module IndexFor
         translate :"index_for.yes", :default => "Yes"
       when FalseClass
         translate :"index_for.no", :default => "No"
-      when Array, Hash
-        content.empty? ? blank_content(options) :
-          collection_content(content, options, &block)
-      when Proc
-        @template.capture(@object, &content)
       when NilClass
         blank_content(options)
+      when Proc
+        @template.capture(@object, &content)
       else
-        content.to_s
+        formatter = options[:format] && IndexFor.formatters[options[:format]]
+
+        if formatter
+          @template.instance_exec(content, @object, &formatter)
+        else
+          case content
+          when Array, Hash
+            content.empty? ? blank_content(options) : collection_content(content, options)
+          else
+            content.to_s
+          end
+        end
       end
     end
 
@@ -102,16 +112,12 @@ module IndexFor
       options[:if_blank] || translate(:blank, :default => "Not specified")
     end
 
-    def collection_content collection, options, &block
+    def collection_content collection, options
       collection_tag = options[:collection_tag] || IndexFor.collection_tag
       collection_column_tag = options[:collection_column_tag] || IndexFor.collection_column_tag
       @template.content_tag collection_tag do
         collection.map do |content|
-          if block
-            @template.capture content, collection, @object, &block
-          else
-            @template.content_tag collection_column_tag, content
-          end
+          @template.content_tag collection_column_tag, content
         end.join.html_safe
       end
     end

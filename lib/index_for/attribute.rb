@@ -3,7 +3,7 @@ module IndexFor
 
     private
 
-    def attribute_value attribute_name, options, &block
+    def attribute_value attribute_name, options
       attribute_name = options[:value] if options[:value]
       attribute_name = :"#{attribute_name}.#{options[:with]}" if options[:with]
 
@@ -15,9 +15,7 @@ module IndexFor
         object = object.send(attribute_name)
       end if parts.any?
 
-      if block
-        nil
-      elsif object.respond_to?(:"human_#{attribute_name}")
+      if object.respond_to?(:"human_#{attribute_name}")
         object.send :"human_#{attribute_name}"
       else
         object.send(attribute_name)

@@ -14,7 +14,7 @@ module IndexFor
   @@table_tag = :table
   mattr_accessor :table_class
   @@table_class = nil
-  
+
   mattr_accessor :table_head_tag
   @@table_head_tag = :thead
   mattr_accessor :table_head_class
@@ -34,7 +34,7 @@ module IndexFor
   @@table_head_cell_tag = :th
   mattr_accessor :table_head_cell_class
   @@table_head_cell_class = nil
-  
+
   mattr_accessor :table_body_cell_tag
   @@table_body_cell_tag = :td
   mattr_accessor :table_body_cell_class
@@ -92,5 +92,11 @@ module IndexFor
   #
   def self.setup
     yield self
+  end
+
+  mattr_accessor :formatters
+  @@formatters = {}
+  def self.format key, &block
+    formatters[key] = block
   end
 end

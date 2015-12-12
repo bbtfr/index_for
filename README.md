@@ -71,10 +71,6 @@ IndexFor allows you to quickly list models information with I18n features.
     <%= admin.tags.to_sentence.upcase %>
   <% end %>
 
-  <%= a.attribute :tags do |tag, tags, admin| %>
-    <li><%= tag.upcase %></li>
-  <% end %>
-
   <%= a.attribute :raise_error, value: :"method_return_nil.other_method", if_raise: nil %>
 
   <% a.actions :all %>
@@ -138,14 +134,6 @@ Will generate something like:
       </td>
       
       <td class="attr_tags"> EROS, SEM AND ACCUMSAN </td>
-      
-      <td class="attr_tags">
-        <ul>
-          <li>EROS</li>
-          <li>SEM</li>
-          <li>ACCUMSAN</li>
-        </ul>
-      </td>
 
       <td class="attr_raise_error">
         Not specified

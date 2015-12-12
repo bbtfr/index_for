@@ -24,8 +24,7 @@ module IndexFor
 
     def list_content attribute_name, options, &block
       append_html_class options, attribute_class_name(attribute_name)
-      wrap_content_with :list_content, attribute_value(attribute_name,
-        options), options, &block
+      wrap_attribute_with :list_content, attribute_name, options, &block
     end
 
   end
