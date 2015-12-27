@@ -101,6 +101,8 @@ module IndexFor
           case content
           when Array, Hash
             content.empty? ? blank_content(options) : collection_content(content, options)
+          when String
+            content.empty? ? blank_content(options) : content
           else
             content.to_s
           end
