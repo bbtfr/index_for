@@ -1,5 +1,12 @@
+language: ruby
+install:
+  - gem uninstall -a bundler
+  - gem install bundler
+  - bundle --version
+  - bundle install
 script: "bundle exec rake"
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.1
+  - 2.1.5
+  - 2.2.1
