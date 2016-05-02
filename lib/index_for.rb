@@ -8,6 +8,8 @@ module IndexFor
   autoload :HeadColumnBuilder, 'index_for/builders/head_column_builder'
   autoload :BodyColumnBuilder, 'index_for/builders/body_column_builder'
   autoload :ListColumnBuilder, 'index_for/builders/list_column_builder'
+  autoload :WiceBuilder, 'index_for/builders/wice_builder'
+  autoload :WiceHeadColumnBuilder, 'index_for/builders/wice_head_column_builder'
 
   # IndexFor
   mattr_accessor :table_tag
@@ -83,6 +85,12 @@ module IndexFor
   @@collection_tag = :ul
   mattr_accessor :collection_column_tag
   @@collection_column_tag = :li
+
+  # Wice IndexFor
+  mattr_accessor :per_pages
+  @@per_pages = [10, 25, 50, 100]
+  mattr_accessor :per_page
+  @@per_page = @@per_pages.first
 
   # Yield self for configuration block:
   #

@@ -1,0 +1,65 @@
+<div class="form-inline wice_index_for">
+  <div class="row">
+    <div class="col-sm-6 index_for_length">
+      每页显示
+      <select class="form-control input">
+        <% builder.per_pages do |per_page, url, active| %>
+          <option data-href="<%= url %>" <%= "selected" if active %>><%= per_page %></option>
+        <% end %>
+      </select>
+      条记录
+    </div>
+
+    <div class="col-sm-6 text-right index_for_filter">
+      搜索：
+      <input type="search" class="form-control input" placeholder="<%= params[:search] %>" data-href="<%= url_for(params.merge(search: nil)) %>">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <% html_options[:head_builder] ||= IndexFor::WiceHeadColumnBuilder %>
+      <%= index_for objects, html_options, &block %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 index_for_info"><%= page_entries_info objects %></div>
+    <div class="col-sm-7 text-right index_for_pagination">
+      <%= paginate objects, window: 2 %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).on("ready page:load page:restore", function() {
+    $(".wice_index_for").each(function() {
+      var $this = $(this);
+      if ($this.data("wice-index-for")) return;
+      $this.data("wice-index-for", true);
+      $this.find(".index_for_length select").change(function(event) {
+        var location = $(event.target).find("option:selected").data("href");
+        if (location) window.location = location;
+      });
+
+      $this.find(".index_for thead th").click(function(event) {
+        var location = $(event.target).data("href");
+        if (location) window.location = location;
+      });
+
+      $this.find(".index_for_filter input").keypress(function(event) {
+        if (event.which === 13 || event.keyCode === 13) {
+          var location = $(event.target).data("href"),
+              search = $(event.target).val();
+          if (location) {
+            if (location.indexOf("?") >= 0) {
+              window.location = location + "&search=" + search;
+            } else {
+              window.location = location + "?search=" + search;
+            }
+          }
+        }
+      })
+    })
+  });
+</script>

@@ -5,6 +5,11 @@ module IndexFor
       class_option :template_engine, :desc => 'Template engine to be invoked (erb or haml or slim).'
       source_root File.expand_path('../templates', __FILE__)
 
+      def copy_wice_index_for_template
+        engine = options[:template_engine]
+        copy_file "_wice_index_for.html.#{engine}", "app/views/index_for/_wice_index_for.html.#{engine}"
+      end
+
       def copy_initializers
         copy_file 'index_for.rb', 'config/initializers/index_for.rb'
       end
