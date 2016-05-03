@@ -81,32 +81,26 @@ module IndexFor
       # Array proxies, the follow statement Array# === content return false
       content = content.to_ary if content.respond_to?(:to_ary)
 
+      formatter = options[:format] && IndexFor.formatters[options[:format]]
+      return @template.instance_exec(content, @object, &formatter) if formatter
+
       case content
-      when Date, Time, DateTime
-        I18n.l content, :format => options[:format] || IndexFor.i18n_format
+      when String
+        content.empty? ? blank_content(options) : content
       when TrueClass
         translate :"index_for.yes", :default => "Yes"
       when FalseClass
         translate :"index_for.no", :default => "No"
       when NilClass
         blank_content(options)
+      when Date, Time, DateTime
+        I18n.l content, :format => options[:format] || IndexFor.i18n_format
+      when Array, Hash
+        content.empty? ? blank_content(options) : collection_content(content, options)
       when Proc
         @template.capture(@object, &content)
       else
-        formatter = options[:format] && IndexFor.formatters[options[:format]]
-
-        if formatter
-          @template.instance_exec(content, @object, &formatter)
-        else
-          case content
-          when Array, Hash
-            content.empty? ? blank_content(options) : collection_content(content, options)
-          when String
-            content.empty? ? blank_content(options) : content
-          else
-            content.to_s
-          end
-        end
+        content.to_s
       end
     end
 
