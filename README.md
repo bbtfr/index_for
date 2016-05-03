@@ -187,7 +187,6 @@ IndexFor uses the following sequence to get the attribute value:
 * use the output of a block argument if given
 * use the output of the `:value` argument if given
 * use the output of the `:with` argument if given
-* check if a `:"human_#{attribute}"` method is defined
 * retrieve the attribute directly.
 * attribute name `:"#{method1}.#{method2}"` is allowed, which will use the output of `object.method1.method2`, you can call a method chain in this way.
 
