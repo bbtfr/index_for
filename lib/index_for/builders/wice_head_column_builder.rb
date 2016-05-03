@@ -17,9 +17,9 @@ module IndexFor
         end
 
       sorting_class = if order == params[:order]
-          "sorting_#{direction}"
+          "sorting #{direction}"
         else
-          "sorting"
+          "sorting" if params[:sortable] != false
         end
 
       append_html_class options, attribute_class_name(attribute_name), sorting_class
