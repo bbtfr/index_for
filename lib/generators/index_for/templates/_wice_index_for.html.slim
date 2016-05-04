@@ -1,0 +1,20 @@
+.form-inline.wice_index_for
+  .row
+    .col-sm-6.index_for_length
+      | Show
+      select.form-control.input
+        - builder.per_pages do |per_page, url, active|
+          option  data-href=url selected=(active ) 
+          = per_page
+    | entries
+  .col-sm-6.text-right.index_for_filter
+    | Search:
+    input.form-control.input  type="search" placeholder=params[:search] data-href=(url_for(params.merge(search: nil)) ) 
+.row
+  .col-sm-12
+    - html_options[:head_builder] ||= IndexFor::WiceHeadColumnBuilder
+    = index_for objects, html_options, block
+.row
+  .col-sm-5.index_for_info= page_entries_info objects
+  .col-sm-7.text-right.index_for_pagination
+    = paginate objects, window: 2

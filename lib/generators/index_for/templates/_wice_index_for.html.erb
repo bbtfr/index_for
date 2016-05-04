@@ -1,17 +1,17 @@
 <div class="form-inline wice_index_for">
   <div class="row">
     <div class="col-sm-6 index_for_length">
-      每页显示
+      Show
       <select class="form-control input">
         <% builder.per_pages do |per_page, url, active| %>
           <option data-href="<%= url %>" <%= "selected" if active %>><%= per_page %></option>
         <% end %>
       </select>
-      条记录
+      entries
     </div>
 
     <div class="col-sm-6 text-right index_for_filter">
-      搜索：
+      Search:
       <input type="search" class="form-control input" placeholder="<%= params[:search] %>" data-href="<%= url_for(params.merge(search: nil)) %>">
     </div>
   </div>
