@@ -1,8 +1,8 @@
 # IndexFor
 
-[![Gem Version](https://fury-badge.herokuapp.com/rb/index_for.png)](http://badge.fury.io/rb/index_for)
-[![Build Status](https://api.travis-ci.org/bbtfr/index_for.png?branch=master)](http://travis-ci.org/bbtfr/index_for)
-[![Code Climate](https://codeclimate.com/github/bbtfr/index_for.png)](https://codeclimate.com/github/bbtfr/index_for)
+[![Gem Version](https://img.shields.io/gem/v/index_for.svg)](https://rubygems.org/gems/index_for)
+[![Build Status](https://img.shields.io/travis/bbtfr/index_for.svg)](http://travis-ci.org/bbtfr/index_for)
+[![Code Climate](https://img.shields.io/codeclimate/github/bbtfr/index_for.svg)](https://codeclimate.com/github/bbtfr/index_for)
 
 Inspired by [plataformatec/show_for](https://github.com/plataformatec/show_for), IndexFor allows you to quickly list models information with I18n features.
 
