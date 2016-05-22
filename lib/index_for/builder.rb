@@ -88,9 +88,9 @@ module IndexFor
       when String
         content.empty? ? blank_content(options) : content
       when TrueClass
-        translate :"index_for.yes", :default => "Yes"
+        translate :yes, :default => "Yes"
       when FalseClass
-        translate :"index_for.no", :default => "No"
+        translate :no, :default => "No"
       when NilClass
         blank_content(options)
       when Date, Time, DateTime
