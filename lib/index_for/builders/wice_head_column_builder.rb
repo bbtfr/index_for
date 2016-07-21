@@ -24,9 +24,11 @@ module IndexFor
 
       append_html_class options, attribute_class_name(attribute_name), sorting_class
 
+      params = template.params.permit!
+
       options[:html] ||= {}
       options[:html][:data] ||= {}
-      options[:html][:data][:href] = @template.url_for(@template.params.merge(order: order, direction: reverse_direction))
+      options[:html][:data][:href] = @template.url_for(params.merge(order: order, direction: reverse_direction))
 
       wrap_with :table_head_cell, attribute_label(attribute_name, options), options
     end

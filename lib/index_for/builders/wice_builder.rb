@@ -44,8 +44,9 @@ module IndexFor
     end
 
     def per_pages
+      params = template.params.permit!
       IndexFor.per_pages.each do |per_page|
-        yield per_page, @template.url_for(template.params.merge(page: nil, per_page: per_page)), per_page == self.per_page
+        yield per_page, @template.url_for(params.merge(page: nil, per_page: per_page)), per_page == self.per_page
       end
     end
 
