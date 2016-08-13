@@ -25,11 +25,20 @@ module IndexFor
     end
 
     def fields_for attribute_name, options = {}, &block
-      object = @object.send(attribute_name)
-      fields_for = @html_options[:fields_for] || []
+      object = @object
+      html_options = @html_options
+
+      @object = @object.send(attribute_name)
+      fields_for = @html_options[:fields_for] ? @html_options[:fields_for].clone : []
       fields_for.push attribute_name
-      options.merge!(fields_for: attribute_name)
-      @template.capture(self.class.new(object, options, @template), &block)
+      @html_options = html_options.merge(options).merge(fields_for: fields_for)
+
+      result = @template.capture(self, &block)
+
+      @object = object
+      @html_options = html_options
+
+      result
     end
 
     def actions *action_names, &block; end
@@ -44,7 +53,7 @@ module IndexFor
     end
 
     def apply_html_options type, options = {}
-      type_class = IndexFor.send :"#{type}_class"
+      type_class = IndexFor.try(:"#{type}_class")
 
       type_html_options = {}
       type_html_options.merge!(html_options[:"#{type}_html"]) if html_options[:"#{type}_html"]

@@ -128,9 +128,10 @@ module IndexFor
       append_class row_html_options, IndexFor.table_row_class
 
       content_tag(body_tag, body_html_options) do
+        builder = html_options[:body_builder] || IndexFor::BodyColumnBuilder
+        builder = builder.new(objects, html_options, self)
         objects.map do |object|
-          builder = html_options[:body_builder] || IndexFor::BodyColumnBuilder
-          builder = builder.new(object, html_options, self)
+          builder.object = object
           content = capture(builder, &block)
           content_tag(row_tag, content, row_html_options)
         end.join.html_safe

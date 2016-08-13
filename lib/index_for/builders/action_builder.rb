@@ -8,8 +8,7 @@ module IndexFor
         @template.capture(@object, &block)
       else
         object = @html_options[:namespace] ? @html_options[:namespace].clone.push(@object) : @object
-        action_title = translate(:"actions.#{action_name}",
-          default: action_name.to_s.humanize).html_safe
+        action_title = (translate(:"actions.#{action_name}") || action_name.to_s.humanize).html_safe
         action_html_options = apply_html_options :action_link, options
         append_class action_html_options, :"action_#{action_name}", options[:class]
         action_html_options[:data] ||= {}
