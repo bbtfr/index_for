@@ -6,7 +6,7 @@ module IndexFor
 
     def attribute attribute_name, options = {}
       model_class = options[:model] || html_options[:model] || @object.class
-      order = options[:sortable] || "#{model_class.table_name}.#{attribute_name}"
+      order = "#{model_class.table_name}.#{attribute_name}"
 
       params = @template.params
       direction = params[:direction] || "asc"
