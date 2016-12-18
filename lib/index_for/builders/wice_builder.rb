@@ -30,7 +30,7 @@ module IndexFor
       sortable_field = parse_option(options[:sortable] || true, field_name)
       sortable_fields.merge!(field_name => sortable_field) if sortable_field
       searchable_field = parse_option(options[:searchable] || false, field_name)
-      searchable_fields << searchable_field if searchable_field
+      searchable_fields.concat(Array.wrap(searchable_field)) if searchable_field
       filterable_field = parse_option(options[:filterable] || false, field_name)
       filterable_fields.merge! filterable_field if filterable_field
       nil
