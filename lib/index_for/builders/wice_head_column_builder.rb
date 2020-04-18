@@ -16,10 +16,16 @@ module IndexFor
           "desc"
         end
 
+      sorting = params[:sortable] != false && options[:sortable] != false
+
       sorting_class = if order == params[:order]
           "sorting #{direction}"
-        else
-          "sorting" if params[:sortable] != false
+        elsif sorting
+          "sorting"
+        end
+
+      sorting_url = if sorting
+          @template.url_for(params.merge(order: order, direction: reverse_direction))
         end
 
       append_html_class options, attribute_class_name(attribute_name), sorting_class
@@ -28,7 +34,7 @@ module IndexFor
 
       options[:html] ||= {}
       options[:html][:data] ||= {}
-      options[:html][:data][:href] = @template.url_for(params.merge(order: order, direction: reverse_direction))
+      options[:html][:data][:href] = sorting_url
 
       wrap_with :table_head_cell, attribute_label(attribute_name, options), options
     end
